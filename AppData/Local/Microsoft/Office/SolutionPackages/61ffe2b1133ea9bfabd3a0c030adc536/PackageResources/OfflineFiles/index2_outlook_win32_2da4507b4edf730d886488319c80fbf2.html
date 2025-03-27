@@ -1,0 +1,60 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license. -->
+<!-- See LICENSE in the project root for license information -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Security-Policy" content="object-src 'none'; script-src 'self' https://appsforoffice.microsoft.com 'unsafe-inline'; base-uri 'none'; require-trusted-types-for 'script'; report-to officeextensibility-csp-endpoint">
+    <title>OP Experimentation</title>
+    <script type='text/javascript'>
+        var _perfData = {};
+        _perfData.start = performance.now();
+    </script>
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/beta/hosted/outlook.debug.js" data-enable-trusted-types="1"></script>
+    <script type='text/javascript'>
+        _perfData.outlookJsEnd = performance.now();
+        _perfData.outlookJsDuration = _perfData.outlookJsEnd - _perfData.start;
+        Office.onReady(function (hostAndPlatform) {
+            _perfData.officeOnReadyPage = performance.now();
+            _perfData.officeOnReadyPageDuration = _perfData.officeOnReadyPage - _perfData.start;
+        });
+
+        Office.onReady().then(function() {
+            _perfData.officeOnReadyPageThen = performance.now();
+            _perfData.officeOnReadyPageThenDuration = _perfData.officeOnReadyPageThen - _perfData.start;
+        });
+
+    </script>
+    <script type='text/javascript'>
+        _perfData.appJsStart = performance.now();
+    </script>
+    <script src='src/app.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        _perfData.appJsEnd = performance.now();
+    </script>
+</head>
+
+<body onload="BodyOnLoad()">
+    <div>
+        <input type="button" onclick="BtnTestGetPerfInfo()" value="GetPerInfo" />
+    </div>
+    <div>
+        <div>
+            <button id="BtnRun" onclick="BtnRunClick()">Run</button> the following code:
+        </div>
+        <div>
+            <textarea id="TxtCode" cols="40" rows="20" spellcheck="false"></textarea>
+        </div>
+    </div>
+    <div>
+        Logs: <input type="button" onclick="BtnClearLogClick()" value="Clear Log" />
+    </div>
+    <div id="DivLog">
+    </div>
+    <div>
+      <span id="ActionExecuted"></span>
+    </div>
+<script src="main.js"></script></body>
+
+</html>
